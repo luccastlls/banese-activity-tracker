@@ -1,31 +1,24 @@
+"use client"; // Adicione esta linha
+
 import { useState } from 'react';
-import { Search, User, Edit2, ArrowLeft, Trash2, MoreVertical, X, Check, Calendar, Plus, LogOut, Settings, Copy, Share2 } from 'lucide-react';
+import { Search, User, Edit2, ArrowLeft, Trash2, MoreVertical, Plus, LogOut, Settings, Copy, Share2 } from 'lucide-react';
 
 export default function ActivityTracker() {
-  // Log para verificar se o componente foi renderizado
-  console.log("ActivityTracker component rendered");
-
   const [activities, setActivities] = useState([
-    { id: 1, description: 'Breve descrição da mesma', date: '00/00/0000', details: 'Informações adicionais da atividade 1', responsible: 'Responsável' },
-    { id: 2, description: 'Breve descrição da mesma', date: '00/00/0000', details: 'Informações adicionais da atividade 2', responsible: 'Responsável' },
-    { id: 3, description: 'Breve descrição da mesma', date: '00/00/0000', details: 'Informações adicionais da atividade 3', responsible: 'Responsável' },
-    { id: 4, description: 'Breve descrição da mesma', date: '00/00/0000', details: 'Informações adicionais da atividade 4', responsible: 'Responsável' },
+    { id: 1, description: 'Breve descrição da atividade 1', date: '2023-10-22', details: 'Informações adicionais da atividade 1', responsible: 'Responsável 1' },
+    { id: 2, description: 'Breve descrição da atividade 2', date: '2023-10-22', details: 'Informações adicionais da atividade 2', responsible: 'Responsável 2' },
+    { id: 3, description: 'Breve descrição da atividade 3', date: '2023-10-22', details: 'Informações adicionais da atividade 3', responsible: 'Responsável 3' },
+    { id: 4, description: 'Breve descrição da atividade 4', date: '2023-10-22', details: 'Informações adicionais da atividade 4', responsible: 'Responsável 4' },
   ]);
 
   const [openMenu, setOpenMenu] = useState<number | null>(null);
-  const [editingResponsible, setEditingResponsible] = useState<number | null>(null);
-  const [editingDate, setEditingDate] = useState<number | null>(null);
-  const [tempResponsible, setTempResponsible] = useState('');
-  const [tempDate, setTempDate] = useState('');
   const [isCreatingActivity, setIsCreatingActivity] = useState(false);
   const [newActivity, setNewActivity] = useState({ description: '', date: '', responsible: '', details: '' });
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [openMoreMenu, setOpenMoreMenu] = useState<number | null>(null);
 
-  // Log para depuração ao adicionar uma atividade
   const handleCreateActivity = () => {
     if (newActivity.description && newActivity.date && newActivity.responsible) {
-      console.log("Creating a new activity:", newActivity);
       setActivities([...activities, { ...newActivity, id: activities.length + 1 }]);
       setNewActivity({ description: '', date: '', responsible: '', details: '' });
       setIsCreatingActivity(false);
@@ -35,30 +28,25 @@ export default function ActivityTracker() {
   };
 
   const handleDelete = (id: number) => {
-    console.log("Deleting activity with id:", id);
     setActivities(activities.filter(activity => activity.id !== id));
   };
 
   const toggleMenu = (id: number) => {
-    console.log("Toggling menu for activity id:", id);
     setOpenMenu(openMenu === id ? null : id);
   };
 
   const toggleMoreMenu = (id: number) => {
-    console.log("Toggling more menu for activity id:", id);
     setOpenMoreMenu(openMoreMenu === id ? null : id);
   };
 
   const handleCopyActivity = (activity: typeof activities[0]) => {
     const newActivity = { ...activity, id: activities.length + 1 };
-    console.log("Copying activity:", activity.id);
     setActivities([...activities, newActivity]);
     setOpenMoreMenu(null);
   };
 
   const handleShareActivity = (activity: typeof activities[0]) => {
     console.log("Sharing activity:", activity.id);
-    // Lógica de compartilhamento...
     setOpenMoreMenu(null);
   };
 
@@ -96,13 +84,11 @@ export default function ActivityTracker() {
       </header>
 
       <main className="container mx-auto p-4">
-        {/* Input para busca */}
         <div className="relative mb-6">
           <input type="text" placeholder="Buscar..." className="w-full p-2 pl-10 rounded-full bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500" />
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-green-500" />
         </div>
 
-        {/* Atividades */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="p-4 border-b border-gray-200">
             {isCreatingActivity ? (
@@ -111,26 +97,26 @@ export default function ActivityTracker() {
                   type="text"
                   placeholder="Descrição da atividade"
                   value={newActivity.description}
-                  onChange={(e) => setNewActivity({...newActivity, description: e.target.value})}
+                  onChange={(e) => setNewActivity({ ...newActivity, description: e.target.value })}
                   className="w-full p-2 border rounded"
                 />
                 <input
                   type="date"
                   value={newActivity.date}
-                  onChange={(e) => setNewActivity({...newActivity, date: e.target.value})}
+                  onChange={(e) => setNewActivity({ ...newActivity, date: e.target.value })}
                   className="w-full p-2 border rounded"
                 />
                 <input
                   type="text"
                   placeholder="Responsável"
                   value={newActivity.responsible}
-                  onChange={(e) => setNewActivity({...newActivity, responsible: e.target.value})}
+                  onChange={(e) => setNewActivity({ ...newActivity, responsible: e.target.value })}
                   className="w-full p-2 border rounded"
                 />
                 <textarea
                   placeholder="Detalhes adicionais"
                   value={newActivity.details}
-                  onChange={(e) => setNewActivity({...newActivity, details: e.target.value})}
+                  onChange={(e) => setNewActivity({ ...newActivity, details: e.target.value })}
                   className="w-full p-2 border rounded"
                 />
                 <div className="flex justify-end space-x-2">
@@ -170,23 +156,22 @@ export default function ActivityTracker() {
                   </div>
                 )}
               </div>
-              {/* Menu de ações */}
               <div className="flex items-center justify-center w-40 bg-green-300 p-2">
                 <button onClick={() => toggleMenu(activity.id)} className="p-2 text-green-700 hover:bg-green-400 transition-colors" aria-label="Abrir Menu">
                   <Edit2 className="w-5 h-5" />
                 </button>
-                <button onClick={() => handleDelete(activity.id)} className="p-2 text-red-600 hover:bg-red-100 transition-colors" aria-label="Excluir Atividade">
+                <button onClick={() => handleDelete(activity.id)} className="p-2 text-red-700 hover:bg-red-400 transition-colors" aria-label="Excluir">
                   <Trash2 className="w-5 h-5" />
                 </button>
                 <div className="relative">
-                  <button onClick={() => toggleMoreMenu(activity.id)} className="p-2 text-green-700 hover:bg-green-400 transition-colors" aria-label="Mais opções">
+                  <button onClick={() => toggleMoreMenu(activity.id)} className="p-2 text-gray-700 hover:bg-gray-400 transition-colors" aria-label="Mais opções">
                     <MoreVertical className="w-5 h-5" />
                   </button>
                   {openMoreMenu === activity.id && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10">
                       <button onClick={() => handleCopyActivity(activity)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
                         <Copy className="inline-block w-4 h-4 mr-2" />
-                        Duplicar Atividade
+                        Copiar Atividade
                       </button>
                       <button onClick={() => handleShareActivity(activity)} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left">
                         <Share2 className="inline-block w-4 h-4 mr-2" />
